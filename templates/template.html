@@ -1,0 +1,32 @@
+<!doctype html>
+
+<html>
+	<head>
+		{% block title %}{% endblock %}
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		{% load static %}
+	</head>
+
+	<body>
+	
+		{% block account %}
+			{% if user.is_authenticated %}
+				Hello,&nbsp;{{user.get_username}}&nbsp;
+				<a href={% url "logout" %}>Logout</a>
+			{% else %}
+				<a href="{% url 'login' %}?next={{request.path}}">Login</a>
+				or
+				<a href="{% url 'register' %}?next={{request.path}}">Register</a>
+			{% endif %}
+		{% endblock %}
+
+	
+		{% block content %}{% endblock %}
+		
+	
+	</body>
+
+
+</html>
