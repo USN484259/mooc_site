@@ -10,6 +10,8 @@ urlpatterns=[
             # form_class=UserCreationForm,
             # success_url='/'
     # ),name="register"),
-    path("register",views.register,name="register"),
+    path("register/",views.register,name="register"),
+    path("reg_teacher/",views.reg_teacher,name="reg_teacher"),
+    path("success/<teacher>",views.success,name="reg_success"),
     path("",include('django.contrib.auth.urls')),
 ]

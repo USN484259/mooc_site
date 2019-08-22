@@ -7,9 +7,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
 		{% load static %}
+		{% block head %}{% endblock %}
+		
 	</head>
 
 	<body>
+		<a href='/'>homepage</a>
 	
 		{% block account %}
 			{% if user.is_authenticated %}
