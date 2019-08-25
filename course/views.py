@@ -7,6 +7,6 @@ from .models import *
 
 def show_course(req,id):
 
-
+    return
 
 
