@@ -1,3 +1,35 @@
 {% extends "template.html" %}
 
 
+{% block head %}
+
+<title>Student Profile</title>
+
+
+{% endblock %}
+
+
+{% block content %}
+
+	{% if courses %}
+
+		<table>
+			<th>
+				<td>name</td>
+				<td>teacher</td>
+			</th>
+			
+			{% for course in courses %}
+				<tr>
+					<td>{{course.name}}</td>
+					<td>{{course.teacher.username}}</td>
+				</tr>
+			
+			{% endfor %}
+
+		</table>
+	{% else %}
+		<p>No Selection</p>
+	{% endif %}
+
+{% endblock %}

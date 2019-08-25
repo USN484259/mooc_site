@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'video.apps.VideoConfig',
     'user_profile.apps.UserProfileConfig',
+    'course.apps.CourseConfig',
 ]
 
 MIDDLEWARE = [

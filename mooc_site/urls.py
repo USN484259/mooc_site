@@ -22,5 +22,6 @@ urlpatterns = [
     path("account/",include("account.urls")),
     path("video/",include("video.urls")),
     path("profile/",include("user_profile.urls")),
+    path("course/",include("course.urls")),
     path("",include("homepage.urls")),
 ]
