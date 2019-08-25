@@ -9,3 +9,29 @@
 {% endblock %}
 
 
+{% block content %}
+
+	<a href={% url "create_course" %}>New course</a>
+
+	{% if courses %}
+		<table>
+			<th>
+				<td>name</td>
+				<td>count</td>
+			</th>
+			
+			{% for course in courses %}
+				<tr>
+					<td><a href="/course/{{course.pk}}">{{course.name}}</a></td>
+					<td>{{course.count}}</td>
+				</tr>
+			
+			{% endfor %}
+
+		</table>
+
+	{% else %}
+		<p>No Courses</p>
+	{% endif %}
+
+{% endblock %}

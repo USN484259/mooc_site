@@ -3,7 +3,7 @@
 
 {% block head %}
 
-<title>Student Profile</title>
+<title>selection</title>
 
 
 {% endblock %}
@@ -11,28 +11,27 @@
 
 {% block content %}
 
-	<a href={% url "selection" %}>Select</a>
-	
 	{% if courses %}
 
 		<table>
 			<th>
 				<td>name</td>
 				<td>teacher</td>
+				<td></td>
 			</th>
 			
 			{% for course in courses %}
 				<tr>
 					<td><a href="/course/{{course.pk}}">{{course.name}}</a></td>
 					<td>{{course.teacher.username}}</td>
+					<td><a href="/course/select/{{course.pk}}?next={{request.path}}">Select</a></td>
 				</tr>
 			
 			{% endfor %}
 
 		</table>
 	{% else %}
-		<p>No Selection</p>
+		<p>No course available</p>
 	{% endif %}
-	
 
 {% endblock %}

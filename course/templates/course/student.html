@@ -1,0 +1,43 @@
+{% extends "template.html" %}
+
+
+{% block head %}
+
+<title>{{course.name}}</title>
+
+
+{% endblock %}
+
+
+{% block content %}
+	
+	<p>
+	{% if selected %}
+		<a href="/course/deselect/{{course.pk}}?next={{request.path}}">Deselect</a>
+	
+	{% else %}
+		<a href="/course/select/{{course.pk}}?next={{request.path}}">Select</a>
+		
+	{% endif %}
+	</p>
+	{% if videos %}
+
+		<ul>
+			
+			{% for video in videos %}
+				<li>
+					{% if selected %}
+						<a href="/video/{{video.pk}}">{{video.name}}</a>
+					{% else %}
+						{{video.name}}
+					{% endif %}
+				</li>
+			
+			{% endfor %}
+
+		</ul>
+	{% else %}
+		<p>No Videos</p>
+	{% endif %}
+
+{% endblock %}
