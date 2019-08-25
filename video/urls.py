@@ -6,5 +6,7 @@ from .views import *
 
 urlpatterns=[
     path("<int:id>/",play_video),
+    path("new/",upload_video,name="new_video"),
+    path("delete/<int:id>/",delete_video),
 
 ]+ static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)

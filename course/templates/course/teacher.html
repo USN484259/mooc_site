@@ -1,1 +1,34 @@
 {% extends "template.html" %}
+
+
+{% block head %}
+
+<title>{{course.name}}</title>
+
+
+{% endblock %}
+
+
+{% block content %}
+	
+	<a href={% url "new_video" %}>Add video</a>
+	
+	
+	{% if videos %}
+		<table>
+			
+			{% for video in videos %}
+				<tr>
+				<td><a href="/video/{{video.pk}}">{{video.name}}</a></td>
+				<td><a href="/video/delete/{{video.pk}}?next={{request.path}}">Delete</a></td>
+				</tr>
+			
+			{% endfor %}
+
+		</table>
+	{% else %}
+		<p>No Videos</p>
+	{% endif %}
+	
+
+{% endblock %}

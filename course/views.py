@@ -34,7 +34,13 @@ def show_student(req,course):
     return render(req,"course/student.html",{"course":course,"videos":videos,"selected":True if selected else False})
     
 def show_teacher(req,course):
-    return render(req,"course/teacher.html")
+    videos=[]
+    try:
+        videos=VideoModel.objects.filter(course=course)
+    except VideoModel.DoesNotExist:
+        videos=None
+
+    return render(req,"course/teacher.html",{"course":course,"videos":videos})
     
     
 def select_course(req,id):
@@ -69,3 +75,7 @@ def deselect_course(req,id):
     SelectionModel.objects.filter(student=req.user,course=course).delete()
 
     return redirect(req.GET.get('next'))
+
+
+def create_course(req):
+    return render(req,"course/new_course.html")

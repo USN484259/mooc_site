@@ -11,6 +11,8 @@
 	</head>
 
 	<body>
+	<div>
+	
 		<a href='/'>homepage</a>
 	
 		{% block account %}
@@ -28,7 +30,7 @@
 				<a href="{% url 'register' %}?next={{request.path}}">Register</a>
 			{% endif %}
 		{% endblock %}
-
+	</div>
 	
 		{% block content %}{% endblock %}
 		
