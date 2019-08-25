@@ -11,7 +11,7 @@
 
 {% block content %}
 	
-	<a href={% url "new_video" %}>Add video</a>
+	<a href="/video/upload/{{course.pk}}">Add video</a>
 	
 	
 	{% if videos %}

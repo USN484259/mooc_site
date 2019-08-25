@@ -24,7 +24,7 @@ def reg_teacher(req):
     if req.method=="POST":
         form=UserCreationForm(req.POST)
         if form.is_valid():
-            user=form.save()
+            user=form.save(commit=False)
             user.is_active=False;
             group=Group.objects.get(name="teacher")
             user.groups.add(group)

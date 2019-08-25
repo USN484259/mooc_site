@@ -3,8 +3,12 @@
 
 {% block content %}
 
-<video controls autoplay>
-	<source src="/video{{MEDIA_URL}}{{source}}" type="video/mp4">
+<h1>{{name}}</h1>
+
+<video width=800px height=600px controls autoplay>
+<!-- /video{{MEDIA_URL}}{{source}} -->
+
+	<source src="/video{{source.url}}" type="video/mp4">
 </video>
 
 
