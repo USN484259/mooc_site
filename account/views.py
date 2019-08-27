@@ -13,7 +13,7 @@ def register(req):
             user=form.save()
             group=Group.objects.get(name="student")
             user.groups.add(group)
-            return redirect("../success/")
+            return redirect("../success/student")
     else:  
         form=UserCreationForm
         
@@ -24,7 +24,7 @@ def reg_teacher(req):
     if req.method=="POST":
         form=UserCreationForm(req.POST)
         if form.is_valid():
-            user=form.save(commit=False)
+            user=form.save()
             user.is_active=False;
             group=Group.objects.get(name="teacher")
             user.groups.add(group)
