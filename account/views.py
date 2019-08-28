@@ -6,6 +6,24 @@ from django.contrib.auth.models import Group
 
 # Create your views here.
 
+# def login(req):
+    # if req.is_authenticated:
+        # auth.logout(req)
+    
+    # if req.method=="POST":
+        # form=LoginForm(req.POST)
+        # if form.is_valid():
+            # user=form.cleaned_data["user"]
+            # auth.login(req,user)
+            # return redirect(req.GET.get('next'))
+    
+    # else:
+        # form=LoginForm()
+
+    # return render(req,"account/login.html",{"form":form})
+
+
+
 def register(req):
     if req.method=="POST":
         form=UserCreationForm(req.POST)

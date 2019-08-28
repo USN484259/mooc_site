@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'video.apps.VideoConfig',
     'user_profile.apps.UserProfileConfig',
     'course.apps.CourseConfig',
+    'blog.apps.BlogConfig',
 ]
 
 MIDDLEWARE = [
