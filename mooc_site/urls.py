@@ -23,5 +23,7 @@ urlpatterns = [
     path("video/",include("video.urls")),
     path("profile/",include("user_profile.urls")),
     path("course/",include("course.urls")),
+    path("blog/",include("blog.urls")),
+    path("comment/",include("comment.urls")),
     path("",include("homepage.urls")),
 ]

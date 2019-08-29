@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response, get_object_or_404, render
 from django.core.paginator import Paginator
 from django.contrib.contenttypes.models import ContentType
 
-from .models import Blog, BlogType
+from .models import Blog#, BlogType
 from comment.models import Comment
 
 def blog_list(request):
@@ -13,7 +13,7 @@ def blog_list(request):
 
 	context = {}
 	context['page_of_blogs'] = page_of_blogs
-	context['blog_types'] = BlogType.objects.all()
+	#context['blog_types'] = BlogType.objects.all()
 	context['blogs_count'] = Blog.objects.all().count()
 	return render(request, 'blog/blog_list.html', context)
 
@@ -29,10 +29,10 @@ def blog_detail(request, blog_pk):
 	response = render(request, 'blog/blog_detail.html', context) # œÏ”¶
 	return render(request, 'blog/blog_detail.html', context)
 
-def blogs_with_type(request, blog_type_pk):
-	context = {}
-	blog_type = get_object_or_404(BlogType, pk = blog_type_pk)
-	context['blog_type'] = blog_type
-	context['blogs'] = Blog.objects.filter(blog_type = blog_type)
-	context['blog_types'] = BlogType.objects.all()
-	return render(request, 'blog/blogs_with_type.html', context)
+# def blogs_with_type(request, blog_type_pk):
+	# context = {}
+	# blog_type = get_object_or_404(BlogType, pk = blog_type_pk)
+	# context['blog_type'] = blog_type
+	# context['blogs'] = Blog.objects.filter(blog_type = blog_type)
+	# context['blog_types'] = BlogType.objects.all()
+	# return render(request, 'blog/blogs_with_type.html', context)

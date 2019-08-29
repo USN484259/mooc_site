@@ -37,12 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ckeditor',
     'homepage.apps.HomepageConfig',
     'account.apps.AccountConfig',
     'video.apps.VideoConfig',
     'user_profile.apps.UserProfileConfig',
     'course.apps.CourseConfig',
     'blog.apps.BlogConfig',
+    'comment.apps.CommentConfig',
 ]
 
 MIDDLEWARE = [
@@ -127,6 +129,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,"media/")
+CKEDITOR_UPLOAD_PATH = 'upload/'
 #goto homepage after logged in
 
 LOGIN_URL='/account/login/'
