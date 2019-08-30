@@ -12,7 +12,8 @@
 {% block content %}
 	
 	<a href="/video/upload/{{course.pk}}">Add video</a>
-	
+	<a href={% url 'blog_list' course.pk %}>Blog</a>
+
 	
 	{% if videos %}
 		<table>

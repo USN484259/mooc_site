@@ -14,7 +14,7 @@
 	<p>
 	{% if selected %}
 		<a href="/course/deselect/{{course.pk}}?next={{request.path}}">Deselect</a>
-	
+		<a href={% url 'blog_list' course.pk %}>Blog</a>
 	{% else %}
 		<a href="/course/select/{{course.pk}}?next={{request.path}}">Select</a>
 		

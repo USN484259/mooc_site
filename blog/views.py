@@ -3,19 +3,24 @@ from django.core.paginator import Paginator
 from django.contrib.contenttypes.models import ContentType
 
 from .models import Blog#, BlogType
+from .forms import *
 from comment.models import Comment
+from course.models import *
+from user_profile.models import *
 
-def blog_list(request):
-	blogs_all_list = Blog.objects.all()
-	page_num = request.GET.get('page',1) #��ȡurl��ҳ�������GET����
-	paginator = Paginator(blogs_all_list,10)	#ÿ10ҳ���з�ҳ
-	page_of_blogs = paginator.get_page(page_num)	# �Զ�ʶ��ҳ������Լ���Ч����
+from utils import check_user
 
-	context = {}
-	context['page_of_blogs'] = page_of_blogs
-	#context['blog_types'] = BlogType.objects.all()
-	context['blogs_count'] = Blog.objects.all().count()
-	return render(request, 'blog/blog_list.html', context)
+# def blog_list(request):
+	# blogs_all_list = Blog.objects.all()
+	# page_num = request.GET.get('page',1) #获取url的页面参数（GET请求）
+	# paginator = Paginator(blogs_all_list,10)	#每10页进行分页
+	# page_of_blogs = paginator.get_page(page_num)	# 自动识别页码符号以及无效处理
+
+	# context = {}
+	# context['page_of_blogs'] = page_of_blogs
+	# #context['blog_types'] = BlogType.objects.all()
+	# context['blogs_count'] = Blog.objects.all().count()
+	# return render(request, 'blog/blog_list.html', context)
 
 def blog_detail(request, blog_pk):
 	blog = get_object_or_404(Blog, pk = blog_pk)
@@ -26,8 +31,59 @@ def blog_detail(request, blog_pk):
 	context['blog'] = blog
 	context['user'] = request.user
 	context['comments'] = comments
-	response = render(request, 'blog/blog_detail.html', context) # ��Ӧ
+	response = render(request, 'blog/blog_detail.html', context) # 响应
 	return render(request, 'blog/blog_detail.html', context)
+
+def blog_course(req,id):
+    res=check_user(req)
+    if res:
+        return res
+    group=req.user.groups.all()
+    
+
+    course=get_object_or_404(CourseModel,pk=id)
+    
+    if course.teacher!=req.user:
+        get_object_or_404(SelectionModel,student=req.user,course=course)
+    
+    blogs=Blog.objects.filter(reference=course)
+    page_num = req.GET.get('page',1) #获取url的页面参数（GET请求）
+    paginator = Paginator(blogs,10)	#每10页进行分页
+    page_of_blogs = paginator.get_page(page_num)	# 自动识别页码符号以及无效处理
+
+    context = {"course":course}
+    context['page_of_blogs'] = page_of_blogs
+	#context['blog_types'] = BlogType.objects.all()
+    context['blogs_count'] = blogs.count()
+    return render(req,"blog/blog_list.html",context)
+
+def blog_new(req,id):
+    res=check_user(req)
+    if res:
+        return res
+    group=req.user.groups.all()
+    
+
+    course=get_object_or_404(CourseModel,pk=id)
+    
+    if course.teacher!=req.user:
+        get_object_or_404(SelectionModel,student=req.user,course=course)
+
+    if req.method=="POST":
+        form=BlogForm(req.POST)
+        if form.is_valid():
+            blog=form.save(commit=False)
+            
+            blog.reference=course
+            blog.author=req.user
+            
+            blog.save()
+            
+            return redirect(blog_detail,blog.pk)
+    else:
+        form=BlogForm()
+    
+    return render(req,"blog/blog_new.html",{"form":form})
 
 # def blogs_with_type(request, blog_type_pk):
 	# context = {}

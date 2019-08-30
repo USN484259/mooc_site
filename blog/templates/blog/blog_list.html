@@ -15,6 +15,10 @@
 
 {# 页面内容 #}
 {% block content %}
+
+
+	<a href={% url 'blog_new' course.pk %}>New blog</a>
+
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-sm-8 col-md-8">
@@ -68,20 +72,6 @@
 				</div>	
 			</div>
 
-			<div class="hidden-xs col-sm-4 col-md-4">
-				<div class="panel panel-default">
-					<div class="panel-heading">博客分类</div>
-					<div class="panel-body">
-						<ul class="blog-types">
-							{% for blog_type in blog_types %}
-								<li><a href="{% url 'blogs_with_type' blog_type.pk %}">{{ blog_type.type_name }}</a></li>
-							{% empty %}
-								<li>暂无分类</li>
-							{% endfor %}
-						</ul>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 {% endblock %}
