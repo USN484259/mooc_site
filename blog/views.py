@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, get_object_or_404, render
+from django.shortcuts import render_to_response, get_object_or_404, render,redirect
 from django.core.paginator import Paginator
 from django.contrib.contenttypes.models import ContentType
 
@@ -23,23 +23,32 @@ from utils import check_user
 	# return render(request, 'blog/blog_list.html', context)
 
 def blog_detail(request, blog_pk):
-	blog = get_object_or_404(Blog, pk = blog_pk)
-	blog_content_type = ContentType.objects.get_for_model(blog)
-	comments = Comment.objects.filter(content_type = blog_content_type, object_id = blog.pk)
+    res=check_user(request)
+    if res:
+        return res
+    
+    course=get_object_or_404(Blog,pk=blog_pk).reference
+    #course=get_object_or_404(CourseModel,pk=blog_pk)
+    
+    if course.teacher!=request.user:
+        get_object_or_404(SelectionModel,student=request.user,course=course)
 
-	context = {}
-	context['blog'] = blog
-	context['user'] = request.user
-	context['comments'] = comments
-	response = render(request, 'blog/blog_detail.html', context) # 响应
-	return render(request, 'blog/blog_detail.html', context)
+
+    blog = get_object_or_404(Blog, pk = blog_pk)
+    blog_content_type = ContentType.objects.get_for_model(blog)
+    comments = Comment.objects.filter(content_type = blog_content_type, object_id = blog.pk)
+    
+    context = {}
+    context['blog'] = blog
+    context['user'] = request.user
+    context['comments'] = comments
+    #response = render(request, 'blog/blog_detail.html', context) # 响应
+    return render(request, 'blog/blog_detail.html', context)
 
 def blog_course(req,id):
     res=check_user(req)
     if res:
-        return res
-    group=req.user.groups.all()
-    
+        return res    
 
     course=get_object_or_404(CourseModel,pk=id)
     
@@ -61,17 +70,18 @@ def blog_new(req,id):
     res=check_user(req)
     if res:
         return res
-    group=req.user.groups.all()
     
+    course=get_object_or_404(Blog,pk=id).reference
+    
+    #course=get_object_or_404(CourseModel,pk=id)
 
-    course=get_object_or_404(CourseModel,pk=id)
-    
     if course.teacher!=req.user:
         get_object_or_404(SelectionModel,student=req.user,course=course)
 
     if req.method=="POST":
         form=BlogForm(req.POST)
         if form.is_valid():
+            print("valid")
             blog=form.save(commit=False)
             
             blog.reference=course
@@ -80,6 +90,7 @@ def blog_new(req,id):
             blog.save()
             
             return redirect(blog_detail,blog.pk)
+        else: print("invalid")
     else:
         form=BlogForm()
     

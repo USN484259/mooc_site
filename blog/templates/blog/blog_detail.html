@@ -18,10 +18,10 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-10 col-xs-offset-1">
+				<a href={% url 'blog_list' blog.reference.pk %}>Back</a>
 				<h3>{{ blog.title }}</h3>
 				<ul class="blog-info-description">
 					<li>作者：{{ blog.author }}</p>
-					<li>分类：<a href="{% url 'blogs_with_type' blog.blog_type.pk %}">{{ blog.blog_type }}</a></li>			<li>发表日期：{{ blog.created_time|date:"Y-m-d G:n:s" }}</li>					
 				</ul>
 				<div class="blog-content">{{ blog.content|safe }}</div>				
 			</div>
@@ -31,13 +31,12 @@
 				<div class="comment-area">
 					<h3 class="comment-area-title">提交评论区域</h3>
 					{% if user.is_authenticated %}
-						<form action="{% url 'update_comment' %}" method="POST" style="overflow: hidden;">
+						<form action="{% url 'update_comment' blog.pk %}" method="POST" style="overflow: hidden;">
 							{# csrf令牌，保证安全 #}
 							{% csrf_token %}	
 							<div class="form-group">
 								<label for="comment_text">{{ user.username }}，欢迎评论</label>
-								<textarea id="comment_text" class="form-control" name="text">
-								</textarea>					
+								<textarea id="comment_text" class="form-control" name="text"></textarea>					
 							</div>
 
 							<input type="hidden" name="object_id" value="{{ blog.pk }}">
