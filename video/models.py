@@ -5,5 +5,9 @@ from user_profile.models import *
 # Create your models here.
 class VideoModel(models.Model):
     course=models.ForeignKey(CourseModel,on_delete=models.CASCADE)
-    name=models.TextField()
+    sorting=models.IntegerField()
+    name=models.CharField(80)
+    description=models.TextField(blank=True,null=True)
     source=models.FileField()
+    class Meta:
+		ordering = ['+sorting']
