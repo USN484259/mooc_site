@@ -10,4 +10,4 @@ class VideoModel(models.Model):
     description=models.TextField(blank=True,null=True)
     source=models.FileField()
     class Meta:
-        ordering = ['+sorting']
+        ordering = ['sorting']

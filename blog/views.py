@@ -26,15 +26,16 @@ def blog_detail(request, blog_pk):
     res=check_user(request)
     if res:
         return res
-    
-    course=get_object_or_404(Blog,pk=blog_pk).reference
+        
+        
+    blog = get_object_or_404(Blog, pk = blog_pk)
+    course=blog.reference
     #course=get_object_or_404(CourseModel,pk=blog_pk)
     
     if course.teacher!=request.user:
         get_object_or_404(SelectionModel,student=request.user,course=course)
 
 
-    blog = get_object_or_404(Blog, pk = blog_pk)
     blog_content_type = ContentType.objects.get_for_model(blog)
     comments = Comment.objects.filter(content_type = blog_content_type, object_id = blog.pk)
     
@@ -71,9 +72,8 @@ def blog_new(req,id):
     if res:
         return res
     
-    course=get_object_or_404(Blog,pk=id).reference
     
-    #course=get_object_or_404(CourseModel,pk=id)
+    course=get_object_or_404(CourseModel,pk=id)
 
     if course.teacher!=req.user:
         get_object_or_404(SelectionModel,student=req.user,course=course)
