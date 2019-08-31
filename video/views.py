@@ -19,7 +19,7 @@ def play_video(req,id):
     else:
         return redirect("/")
     
-    return render(req,"video/player.html",{"name":video.name,"source":video.source})
+    return render(req,"video/player.html",{"video":video})
     
 def upload_video(req,cid):
 

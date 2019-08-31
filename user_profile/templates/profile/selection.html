@@ -17,6 +17,7 @@
 			<th>
 				<td>name</td>
 				<td>teacher</td>
+				<td>description</td>
 				<td></td>
 			</th>
 			
@@ -24,6 +25,7 @@
 				<tr>
 					<td><a href="/course/{{course.pk}}">{{course.name}}</a></td>
 					<td>{{course.teacher.username}}</td>
+					<td>{{course.description}}</td>
 					<td><a href="/course/select/{{course.pk}}?next={{request.path}}">Select</a></td>
 				</tr>
 			

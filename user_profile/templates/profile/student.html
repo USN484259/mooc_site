@@ -19,12 +19,14 @@
 			<th>
 				<td>name</td>
 				<td>teacher</td>
+				<td>description</td>
 			</th>
 			
 			{% for course in courses %}
 				<tr>
 					<td><a href="/course/{{course.pk}}">{{course.name}}</a></td>
 					<td>{{course.teacher.username}}</td>
+					<td>{{course.description}}</td>
 				</tr>
 			
 			{% endfor %}

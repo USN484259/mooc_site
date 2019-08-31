@@ -26,5 +26,5 @@ urlpatterns = [
     path("blog/",include("blog.urls")),
     path("comment/",include("comment.urls")),
     path("",include("homepage.urls")),
-    path(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    #path(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]

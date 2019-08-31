@@ -6,8 +6,8 @@ from user_profile.models import *
 class VideoModel(models.Model):
     course=models.ForeignKey(CourseModel,on_delete=models.CASCADE)
     sorting=models.IntegerField()
-    name=models.CharField(80)
+    name=models.CharField(max_length=80)
     description=models.TextField(blank=True,null=True)
     source=models.FileField()
     class Meta:
-		ordering = ['+sorting']
+        ordering = ['+sorting']

@@ -3,12 +3,14 @@
 
 {% block content %}
 
-<h1>{{name}}</h1>
+<a href={% url 'course_list' video.course.pk %}>Back</a>
+
+<h1>{{video.name}}</h1>
 
 <video width=800px height=600px controls autoplay>
 <!-- /video{{MEDIA_URL}}{{source}} -->
 
-	<source src="/video{{source.url}}" type="video/mp4">
+	<source src="/video{{video.source.url}}" type="video/mp4">
 </video>
 
 

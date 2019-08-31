@@ -11,6 +11,11 @@
 
 {% block content %}
 	
+	<p>
+		<a href={% url 'profile' %}>Back</a>
+	</p>
+
+	
 	<a href="/video/upload/{{course.pk}}">Add video</a>
 	<a href={% url 'blog_list' course.pk %}>Blog</a>
 
@@ -21,6 +26,7 @@
 			{% for video in videos %}
 				<tr>
 				<td><a href="/video/{{video.pk}}">{{video.name}}</a></td>
+				<td>{{video.description}}</td>
 				<td><a href="/video/delete/{{video.pk}}?next={{request.path}}">Delete</a></td>
 				</tr>
 			

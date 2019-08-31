@@ -10,6 +10,13 @@
 
 
 {% block content %}
+	<p>
+		{% if selected %}
+			<a href={% url 'profile' %}>Back</a>
+		{% else %}
+			<a href={% url 'selection' %}>Back</a>
+		{% endif %}
+	</p>
 	
 	<p>
 	{% if selected %}
@@ -22,20 +29,22 @@
 	</p>
 	{% if videos %}
 
-		<ul>
+		<table>
 			
 			{% for video in videos %}
-				<li>
+				<tr>
+					<td>
 					{% if selected %}
 						<a href="/video/{{video.pk}}">{{video.name}}</a>
 					{% else %}
 						{{video.name}}
 					{% endif %}
-				</li>
-			
+					</td>
+					<td>{{video.description}}</td>
+				</tr>
 			{% endfor %}
 
-		</ul>
+		</table>
 	{% else %}
 		<p>No Videos</p>
 	{% endif %}
