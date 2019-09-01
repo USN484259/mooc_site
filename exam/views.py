@@ -3,7 +3,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from utils import check_user
 from .models import *
 from course.models import *
-#from .forms import *
+from .forms import *
+
 # Create your views here.
 
 def exam_list(req,cid):
@@ -31,12 +32,12 @@ def exam_detail(req,eid):
     
     exam=get_object_or_404(ExamModel,pk=eid)
     
-    course=exam.course
+    #course=exam.course
     
     if Group.objects.get(name="student") in group :
-        return detail_student(req,course)
+        return detail_student(req,exam)
     if Group.objects.get(name="teacher") in group :
-        return detail_teacher(req,course)
+        return detail_teacher(req,exam)
 
     raise Http404("Unknown user type")
 
@@ -63,12 +64,32 @@ def exam_teacher(req,course):
     
     return render(req,"exam/teacher.html",{"course":course,"exams":exams})
     
-def detail_student(req,course):
+def detail_student(req,exam):
+
+    if req.method=="POST":
+        form=ScoreForm(req.POST)
+        if form.is_valid():
+            score=form.save(Commit=False)
+            score.exam=exam
+            score.total=exam.score
+            score.selection=get_object_or_404(SelectionModel,student=req.user,course=exam.course)
+            
+            score.save()
+            
+            return redirect(exam_list,exam.course.pk)
+            
+    else:
+        form=ScoreForm()
+        
+    return render(req,"exam/detail_student.html",{"exam":exam,"form":form})
+    
     raise Http404("Not implemented")
     
     
-def detail_teacher(req,course):
-    raise Http404("Not implemented")
+def detail_teacher(req,exam):
+
+    return render(req,"exam/detail_teacher.html",{"exam":exam})
+
 
 def exam_new(req,cid):
     res=check_user(req)

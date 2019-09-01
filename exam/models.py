@@ -20,5 +20,6 @@ class ExamModel(models.Model):
 class ScoreModel(models.Model):
     selection=models.ForeignKey(SelectionModel,on_delete=models.CASCADE)
     exam=models.ForeignKey(ExamModel,on_delete=models.DO_NOTHING)
+    answer=RichTextUploadingField()
     total=models.FloatField()
     score=models.FloatField(null=True)

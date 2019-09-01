@@ -1,0 +1,23 @@
+{% extends "template.html" %}
+
+
+{% block head %}
+<title>{{exam.name}}</title>
+
+{% endblock %}
+
+
+{% block content %}
+
+	<a href={% url 'exam_list' exam.course.pk %}>Back</a>
+	<div>{{exam.question|safe}}</div>
+	<h3>{{exam.score}}</h3>
+	
+	<form method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{form.media}}
+		{{form.as_p}}
+		<button type="submit">Submit</button>
+	</form>
+		
+{% endblock %}

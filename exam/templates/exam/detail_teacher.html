@@ -1,0 +1,17 @@
+{% extends "template.html" %}
+
+
+{% block head %}
+<title>{{exam.name}}</title>
+
+{% endblock %}
+
+
+{% block content %}
+
+	<a href={% url 'exam_list' exam.course.pk %}>Back</a>
+
+	<h3>{{exam.score}}</h3>
+	<div>{{exam.question|safe}}</div>
+		
+{% endblock %}
