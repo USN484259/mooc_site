@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404,redirect,Http404
-from django.core.exceptions import ObjectDoesNotExist
+#from django.core.exceptions import ObjectDoesNotExist
 from utils import check_user
 from .models import *
 from course.models import *
@@ -44,14 +44,16 @@ def exam_detail(req,eid):
 
 def exam_student(req,course):
 
-    get_object_or_404(SelectionModel,student=req.user,course=course)
-
+    selection=get_object_or_404(SelectionModel,student=req.user,course=course)
+    
     exams=ExamModel.objects.filter(course=course)
+        
     for exam in exams:
         try:
-            selection=SelectionModel.objects.get(student=req.user)
-            exam.score=ScoreModel.objects.get(selection=selection,exam=exam)
-        except ObjectDoesNotExist:
+            score=ScoreModel.objects.get(selection=selection,exam=exam)
+            exam.result=score
+            
+        except ScoreModel.DoesNotExist:
             exam
         
     return render(req,"exam/student.html",{"course":course,"exams":exams})
@@ -65,14 +67,23 @@ def exam_teacher(req,course):
     return render(req,"exam/teacher.html",{"course":course,"exams":exams})
     
 def detail_student(req,exam):
-
+    
+    selection=get_object_or_404(SelectionModel,student=req.user,course=exam.course)
+    
+    try:
+        ScoreModel.objects.get(selection=selection,exam=exam)
+        raise Http404("Exam already taken")
+        
+    except ScoreModel.DoesNotExist:
+        exam
+    
     if req.method=="POST":
         form=ScoreForm(req.POST)
         if form.is_valid():
-            score=form.save(Commit=False)
+            score=form.save(commit=False)
             score.exam=exam
             score.total=exam.score
-            score.selection=get_object_or_404(SelectionModel,student=req.user,course=exam.course)
+            score.selection=selection
             
             score.save()
             

@@ -23,12 +23,25 @@
 			</tr>
 			{% for exam in exams %}
 				<tr>
-					<td>
-						<a href={% url 'exam_detail' exam.pk %}>{{exam.name}}</a>
-					</td>
-					{% if exam.score %}
-						<td>{{exam.score.score}}/{{exam.score.total}}</td>
+					{% if exam.result %}
+						<td>{{exam.name}}</td>
+						
+						{% if exam.result.score %}
+						
+							<td>{{exam.result.score}}/{{exam.result.total}}</td>
+						
+						{% else %}
+						
+							<td>???/{{exam.result.total}}</td>
+
+						{% endif %}
+					{% else %}
+						<td>
+							<a href={% url 'exam_detail' exam.pk %}>{{exam.name}}</a>
+						</td>
+					
 					{% endif %}
+					
 				</tr>
 			{% endfor %}
 
