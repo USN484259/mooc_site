@@ -81,7 +81,6 @@ def blog_new(req,id):
     if req.method=="POST":
         form=BlogForm(req.POST)
         if form.is_valid():
-            print("valid")
             blog=form.save(commit=False)
             
             blog.reference=course
@@ -90,7 +89,6 @@ def blog_new(req,id):
             blog.save()
             
             return redirect(blog_detail,blog.pk)
-        else: print("invalid")
     else:
         form=BlogForm()
     

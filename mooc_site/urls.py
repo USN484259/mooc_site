@@ -19,12 +19,14 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("ckeditor/", include('ckeditor_uploader.urls')),
     path("account/",include("account.urls")),
     path("video/",include("video.urls")),
     path("profile/",include("user_profile.urls")),
     path("course/",include("course.urls")),
     path("blog/",include("blog.urls")),
     path("comment/",include("comment.urls")),
+    path("exam/",include("exam.urls")),
     path("",include("homepage.urls")),
-    path("ckeditor/", include('ckeditor_uploader.urls')),
+
 ]

@@ -18,6 +18,7 @@
 	
 	<a href="/video/upload/{{course.pk}}">Add video</a>
 	<a href={% url 'blog_list' course.pk %}>Blog</a>
+	<a href={% url 'exam_list' course.pk %}>Exams</a>
 
 	
 	{% if videos %}

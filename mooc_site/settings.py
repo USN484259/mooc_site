@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'course.apps.CourseConfig',
     'blog.apps.BlogConfig',
     'comment.apps.CommentConfig',
+    'exam.apps.ExamConfig',
 ]
 
 MIDDLEWARE = [

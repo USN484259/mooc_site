@@ -24,22 +24,14 @@ def show_course(req,id):
     raise Http404("Unknown user type")
 
 def show_student(req,course):
-    videos=[]
-    try:
-        videos=VideoModel.objects.filter(course=course)
-    except VideoModel.DoesNotExist:
-        videos=None
+    videos=VideoModel.objects.filter(course=course)
     
     selected=SelectionModel.objects.filter(student=req.user,course=course)
     
     return render(req,"course/student.html",{"course":course,"videos":videos,"selected":True if selected else False})
     
 def show_teacher(req,course):
-    videos=[]
-    try:
-        videos=VideoModel.objects.filter(course=course)
-    except VideoModel.DoesNotExist:
-        videos=None
+    videos=VideoModel.objects.filter(course=course)
 
     return render(req,"course/teacher.html",{"course":course,"videos":videos})
     

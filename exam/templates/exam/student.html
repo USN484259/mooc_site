@@ -1,0 +1,40 @@
+{% extends "template.html" %}
+
+
+{% block head %}
+
+<title>{{course.name}}</title>
+
+
+{% endblock %}
+
+
+{% block content %}
+	<p>
+		<a href={% url 'course_list' course.pk %}>Back</a>
+	</p>
+	
+	{% if exams %}
+
+		<table>
+			<tr>
+				<th>exam</th>
+				<th>score</th>	
+			</tr>
+			{% for exam in exams %}
+				<tr>
+					<td>
+						<a href={% url 'exam_detail' exam.pk %}>{{exam.name}}</a>
+					</td>
+					{% if exam.score %}
+						<td>{{exam.score.score}}/{{exam.score.total}}</td>
+					{% endif %}
+				</tr>
+			{% endfor %}
+
+		</table>
+	{% else %}
+		<p>No Exams</p>
+	{% endif %}
+
+{% endblock %}
