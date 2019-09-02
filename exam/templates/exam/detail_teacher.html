@@ -13,5 +13,10 @@
 
 	<h3>{{exam.score}}</h3>
 	<div>{{exam.question|safe}}</div>
-		
+	
+	<ul>
+		{% for answer in answers %}
+			<li><a href={% url 'check_answer' answer.pk %}>{{answer.selection.student}}</a></li>
+		{% endfor %}
+	</ul>
 {% endblock %}

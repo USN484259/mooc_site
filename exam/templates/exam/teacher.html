@@ -15,7 +15,7 @@
 	</p>
 	
 	<a href={% url "new_exam" course.pk %}>New exam</a>
-	
+	<a href={% url 'exam_statistics' course.pk %}>Statistics</a>
 	{% if exams %}
 
 		<table>

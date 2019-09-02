@@ -1,0 +1,52 @@
+{% extends "template.html" %}
+
+
+{% block head %}
+
+<title>{{course.name}}</title>
+
+
+{% endblock %}
+
+
+{% block content %}
+	<p>
+		<a href={% url 'exam_list' course.pk %}>Back</a>
+	</p>
+	
+	<table border=1>
+		<tr>
+			<th>name</th>
+			{% for exam in exams %}
+				<th>{{exam.name}}</th>
+			
+			{% endfor %}
+		
+		</tr>
+		
+		{% for student in students %}
+			<tr>
+				<th>{{student.student}}</th>
+				
+				{% for exam in exams %}
+					{% with score=student.scores|get_item:exam %}
+					{% if score != None %}
+						<td>
+						{% if score.score == None %}
+							???
+						{% else %}
+							{{score.score}}
+						{% endif %}
+						&nbsp;/&nbsp;
+						{{score.total}}
+						</td>
+					
+					{% endif %}
+					{% endwith %}
+				{% endfor %}
+			</tr>
+		
+		{% endfor %}
+	</table>
+
+{% endblock %}

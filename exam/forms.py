@@ -11,3 +11,6 @@ class ScoreForm(forms.ModelForm):
     class Meta:
         model=ScoreModel
         fields=("answer",)
+        
+class CheckForm(forms.Form):
+    score=forms.FloatField()

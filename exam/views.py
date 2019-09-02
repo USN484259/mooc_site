@@ -4,6 +4,7 @@ from utils import check_user
 from .models import *
 from course.models import *
 from .forms import *
+from django.template.defaulttags import register
 
 # Create your views here.
 
@@ -35,8 +36,14 @@ def exam_detail(req,eid):
     #course=exam.course
     
     if Group.objects.get(name="student") in group :
+        get_object_or_404(SelectionModel,student=req.user,course=exam.course)
+    
         return detail_student(req,exam)
+        
     if Group.objects.get(name="teacher") in group :
+        if exam.course.teacher!=req.user:
+            raise Http404("Invalid user")
+    
         return detail_teacher(req,exam)
 
     raise Http404("Unknown user type")
@@ -94,12 +101,16 @@ def detail_student(req,exam):
         
     return render(req,"exam/detail_student.html",{"exam":exam,"form":form})
     
-    raise Http404("Not implemented")
     
     
 def detail_teacher(req,exam):
 
-    return render(req,"exam/detail_teacher.html",{"exam":exam})
+    #selections=SelectionModel.objects.filter(course=exam.course)
+    
+    answers=ScoreModel.objects.filter(exam=exam).exclude(score__isnull=False)
+    
+    
+    return render(req,"exam/detail_teacher.html",{"exam":exam,"answers":answers})
 
 
 def exam_new(req,cid):
@@ -112,6 +123,9 @@ def exam_new(req,cid):
     course=get_object_or_404(CourseModel,pk=cid)
     if Group.objects.get(name="teacher") not in group :
         raise Http404("Invalid user group")
+        
+    if course.teacher!=req.user:
+        raise Http404("Invalid user")
 
     if req.method=="POST":
         form=ExamForm(req.POST)
@@ -129,3 +143,66 @@ def exam_new(req,cid):
 
     return render(req,"exam/exam_new.html",{"form":form})
 
+def exam_statistics(req,cid):
+    res=check_user(req)
+    if res:
+        return res
+    
+    group=req.user.groups.all()
+    
+    course=get_object_or_404(CourseModel,pk=cid)
+
+    if Group.objects.get(name="teacher") not in group :
+        raise Http404("Invalid user group")
+        
+    if course.teacher!=req.user:
+        raise Http404("Invalid user")
+
+    students=SelectionModel.objects.filter(course=course)
+    exams=ExamModel.objects.filter(course=course)
+    
+    for student in students:
+        scores=ScoreModel.objects.filter(selection=student)
+        student.scores={}
+        for score in scores:
+            student.scores[score.exam]={"score":score.score,"total":score.total}
+        
+        
+    
+    return render(req,"exam/statistics.html",{"course":course,"students":students,"exams":exams})
+    
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
+
+def exam_check(req,sid):
+    res=check_user(req)
+    if res:
+        return res
+    
+    group=req.user.groups.all()
+    
+    if Group.objects.get(name="teacher") not in group :
+        raise Http404("Invalid user group")
+
+    score=get_object_or_404(ScoreModel,pk=sid)
+    
+    if score.exam.course.teacher!=req.user:
+        raise Http404("Invalid user")
+    
+    if score.score is not None:
+        raise Http404("Already checked")
+    
+    if req.method=="POST":
+        form=CheckForm(req.POST)
+        if form.is_valid() and form.cleaned_data['score']<=score.total:
+            score.score=form.cleaned_data['score']
+            score.save()
+            
+            return redirect(exam_detail,score.exam.pk)
+            
+    else:
+        form=CheckForm()
+    
+    
+    return render(req,"exam/check_answer.html",{"answer":score,"form":form})

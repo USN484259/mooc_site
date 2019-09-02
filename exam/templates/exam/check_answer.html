@@ -1,0 +1,21 @@
+{% extends "template.html" %}
+
+
+{% block head %}
+<title>New Exam</title>
+
+{% endblock %}
+
+
+{% block content %}
+	<p>{{answer.total}}</p>
+	<div>{{answer.answer|safe}}</div>
+	
+	<form method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{form.as_p}}
+		<button type="submit">Submit</button>
+	</form>
+	
+
+{% endblock %}
