@@ -25,10 +25,15 @@ def show_course(req,id):
 
 def show_student(req,course):
     videos=VideoModel.objects.filter(course=course)
+    try:
+        selection=SelectionModel.objects.get(student=req.user,course=course)
+        
+        progress={"current":ProgressModel.objects.filter(selection=selection).count(),"total":VideoModel.objects.filter(course=course).count()}
+        
+    except SelectionModel.DoesNotExist:
+        progress=None
     
-    selected=SelectionModel.objects.filter(student=req.user,course=course)
-    
-    return render(req,"course/student.html",{"course":course,"videos":videos,"selected":True if selected else False})
+    return render(req,"course/student.html",{"course":course,"videos":videos,"progress":progress})
     
 def show_teacher(req,course):
     videos=VideoModel.objects.filter(course=course)

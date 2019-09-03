@@ -1,4 +1,5 @@
 from django.shortcuts import render,get_object_or_404,redirect
+from django.http import HttpResponse
 from utils import check_user
 from .models import *
 from .forms import *
@@ -13,13 +14,32 @@ def play_video(req,id):
     
     
     video=get_object_or_404(VideoModel,pk=id)
+    selection=None
+    is_pass=None
+    if Group.objects.get(name="teacher") not in req.user.groups.all():
+        try:
+            selection=SelectionModel.objects.get(student=req.user,course=video.course)
+            ProgressModel.objects.get(selection=selection,video=video)
+            is_pass="Passed"
+        except SelectionModel.DoesNotExist:
+            return redirect("/")
+        except ProgressModel.DoesNotExist:
+            is_pass="Not pass"
+        
+    if req.method=='POST':
+        
+        req.body
+        if selection is not None:
+            try:
+                ProgressModel.objects.get(selection=selection,video=video)
+            except ProgressModel.DoesNotExist:
+                ProgressModel(selection=selection,video=video).save()
+        
+        return HttpResponse("pass" if selection is not None else "",content_type="text/plain")
+        
     
-    if req.user.groups.filter(name="teacher") or SelectionModel.objects.filter(student=req.user,course=video.course):
-        req
-    else:
-        return redirect("/")
     
-    return render(req,"video/player.html",{"video":video})
+    return render(req,"video/player.html",{"video":video,"pass":is_pass})
     
 def upload_video(req,cid):
 

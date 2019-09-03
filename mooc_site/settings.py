@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ckeditor',
+    'ckeditor_uploader',
     'homepage.apps.HomepageConfig',
     'account.apps.AccountConfig',
     'video.apps.VideoConfig',
@@ -135,8 +136,12 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,"media/")
-CKEDITOR_UPLOAD_PATH = 'upload/'
+CKEDITOR_UPLOAD_PATH = 'uploads/'
 #goto homepage after logged in
+
+CKEDITOR_RESTRICT_BY_USER=True
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
+CKEDITOR_RESTRICT_BY_DATE=False
 
 LOGIN_URL='/account/login/'
 LOGIN_REDIRECT_URL = '/profile'

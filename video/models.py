@@ -11,3 +11,7 @@ class VideoModel(models.Model):
     source=models.FileField()
     class Meta:
         ordering = ['sorting']
+
+class ProgressModel(models.Model):
+    selection=models.ForeignKey(SelectionModel,on_delete=models.CASCADE)
+    video=models.ForeignKey(VideoModel,on_delete=models.CASCADE)

@@ -1,5 +1,9 @@
 {% extends "template.html" %}
 
+{% block head %}
+	<script type="text/javascript" src="/static/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="/static/jquery.cookie-1.4.1.min.js"></script>
+{% endblock %}
 
 {% block content %}
 
@@ -7,12 +11,36 @@
 
 <h1>{{video.name}}</h1>
 
-<video width=800px height=600px controls autoplay>
+{% if pass %}
+<h3 id="status">
+	{{pass}}
+</h3>
+{% endif %}
+
+<video width=800px height=600px controls autoplay  onended="videoEnded()">
 <!-- /video{{MEDIA_URL}}{{source}} -->
 
 	<source src="/video{{video.source.url}}" type="video/mp4">
 </video>
 
+<script type="text/javascript">
 
+	var tick_count=new Date().getTime()
+	
+	$(function () {
+		$.ajaxSetup({
+			headers: { "X-CSRFToken": $.cookie("csrftoken") }
+		});
+	});
+	
+	function videoEnded(){
+		$.post($(location).attr('href'),(new Date().getTime()-tick_count).toString(),function(data){
+			if (data=="pass"){
+				$("#status").text("Passed")
+			}
+		})
+	}
+
+</script>
 
 {% endblock %}

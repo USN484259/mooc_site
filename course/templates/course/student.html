@@ -11,7 +11,7 @@
 
 {% block content %}
 	<p>
-		{% if selected %}
+		{% if progress %}
 			<a href={% url 'profile' %}>Back</a>
 		{% else %}
 			<a href={% url 'selection' %}>Back</a>
@@ -19,7 +19,8 @@
 	</p>
 	
 	<p>
-	{% if selected %}
+	{% if progress %}
+		<p>{{progress.current}}&nbsp;/&nbsp;{{progress.total}}</p>
 		<a href="/course/deselect/{{course.pk}}?next={{request.path}}">Deselect</a>
 		<a href={% url 'blog_list' course.pk %}>Blog</a>
 		<a href={% url 'exam_list' course.pk %}>Exams</a>
@@ -35,7 +36,7 @@
 			{% for video in videos %}
 				<tr>
 					<td>
-					{% if selected %}
+					{% if progress %}
 						<a href="/video/{{video.pk}}">{{video.name}}</a>
 					{% else %}
 						{{video.name}}
