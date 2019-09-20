@@ -1,18 +1,51 @@
-{% extends "template.html" %}
+{% extends "base.html" %}
 
 {% block head %}
 
-<title>Create Course</title>
+Create Course
 
 
 {% endblock %}
 
 {% block content %}
 	
-	<form method="post" enctype="multipart/form-data">
-		{% csrf_token %}
-		{{ form.as_p }}
-		<button type="submit">Create</button>
-	</form>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-8 col-xs-offset-2">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">新课程</h3>
+				</div>
 
+				<div class="panel-body">
+					<div class="panel-content">
+
+						<form method="post" enctype="multipart/form-data">
+							{% csrf_token %}
+							<p class="course-text">课程名称</p>
+							<input name="name" type="text" class="form-control">
+							<p class="course-text">课程描述</p>
+							<textarea name="description" class="form-control" rows="3"></textarea>
+						
+							<input id="course-btn" class="btn btn-primary pull-right" type="submit" value="提交">
+						
+						</form>
+					</div>					
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+{% endblock %}
+
+{% block head_extends %}
+	<style type="text/css">
+		#course-btn{
+			margin-top: 0.5em;
+		}
+		#course-text{
+			margin-top: 0.5em;
+			margin-bottom: 0.5em;
+		}
+	</style>
 {% endblock %}

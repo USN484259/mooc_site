@@ -1,4 +1,4 @@
-{% extends "template.html" %}
+{% extends "base.html" %}
 
 
 {% block head %}
@@ -9,14 +9,32 @@
 
 {% block content %}
 
-	<a href={% url 'exam_list' exam.course.pk %}>Back</a>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-8 col-xs-offset-2">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title">教师批改</h3>
+				  </div>
+				  <div class="panel-body">
 
-	<h3>{{exam.score}}</h3>
-	<div>{{exam.question|safe}}</div>
-	
-	<ul>
-		{% for answer in answers %}
-			<li><a href={% url 'check_answer' answer.pk %}>{{answer.selection.student}}</a></li>
-		{% endfor %}
-	</ul>
+						<button type="button" class="btn btn-danger" onclick="window.location.href = '{% url 'exam_list' exam.course.pk %}'">后退</button>
+
+						<h3 style="margin-top: 0.5em;">{{exam.question|safe}}</h3>
+						<p style="margin-top: 0.7em;"><span class="glyphicon glyphicon-star"></span>{{exam.score}}分</p>	
+						
+						<table class="table table-hover">
+							<th>已回答学生(点击名称查看答案)</th>
+							{% for answer in answers %}
+							<tr>
+								<td><a href={% url 'check_answer' answer.pk %}>{{answer.selection.student}}</td></li>
+							</tr>
+							{% endfor %}
+						</table>
+
+				  </div>
+				</div>
+			</div>
+		</div>
+	</div>	
 {% endblock %}

@@ -1,22 +1,61 @@
-<!doctype html>
+{% extends 'base.html' %}
+{% load staticfiles %}
 
+{% block title %}
+	我的网站|教师注册
+{% endblock %}
 
-<html>
+{% block nav_home_active %}active{% endblock %}
 
-	<head>
-		<title>Register as teacher</title>
-	</head>
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-xs-4 col-xs-offset-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">教师注册</h3>
+				</div>
 
-	<body>
-	
-		<form method="POST">
-			{% csrf_token %}
-			{{form}}
-			
-			<input type="submit" value="Register">
-		</form>
-		<a href={% url 'login' %}>login</a>
-		<a href={% url 'register' %}>Register as student</a>
-	</body>
+				<div class="panel-body">
+					<div class="panel-content">
 
-</html>
+						<form method="POST">
+							{% csrf_token %}
+							<h3></h3>
+							<div id="input-login-username" class="input-group">
+							  <input type="text" class="form-control" placeholder="用户名" aria-describedby="basic-addon1" name="username">
+							</div>
+							<div id="input-login-password1" class="input-group">
+							  <input type="password" class="form-control" placeholder="密码" aria-describedby="basic-addon1" name="password1">
+							</div>
+							<div id="input-login-password2" class="input-group">
+							  <input type="password" class="form-control" placeholder="确认密码" aria-describedby="basic-addon1" name="password2">
+							</div>
+							<input type="submit" value="注册" class="btn btn-primary pull-right">
+							<input type="hidden" name="next" value="{{next}}">						
+						</form>					
+						<a href={% url 'login' %}>登录</a>
+						<a href={% url 'register' %}>学生注册</a>								
+					</div>					
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+{% endblock %}
+
+{% block head_extends %}
+	<style type="text/css">
+		#input-login-username{
+			margin-top: 0em;
+		}
+		#input-login-password1{
+			margin-top: 0.5em;
+			margin-bottom: 0.5em;
+		}
+		#input-login-password2{
+			margin-top: 0.5em;
+			margin-bottom: 0.5em;
+		}
+	</style>
+{% endblock %}

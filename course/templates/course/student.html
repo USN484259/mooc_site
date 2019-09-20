@@ -1,54 +1,74 @@
-{% extends "template.html" %}
+{% extends "base.html" %}
 
 
 {% block head %}
 
-<title>{{course.name}}</title>
+{{course.name}}
 
 
 {% endblock %}
 
 
 {% block content %}
-	<p>
-		{% if progress %}
-			<a href={% url 'profile' %}>Back</a>
-		{% else %}
-			<a href={% url 'selection' %}>Back</a>
-		{% endif %}
-	</p>
-	
-	<p>
-	{% if progress %}
-		<p>{{progress.current}}&nbsp;/&nbsp;{{progress.total}}</p>
-		<a href="/course/deselect/{{course.pk}}?next={{request.path}}">Deselect</a>
-		<a href={% url 'blog_list' course.pk %}>Blog</a>
-		<a href={% url 'exam_list' course.pk %}>Exams</a>
-	{% else %}
-		<a href="/course/select/{{course.pk}}?next={{request.path}}">Select</a>
-		
-	{% endif %}
-	</p>
-	{% if videos %}
 
-		<table>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-8 col-xs-offset-2">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">课程内容</h3>
+				</div>
+
+				<div class="panel-body">
+					<div class="panel-content">
+
+							{% if progress %}
+								<button type="button" class="btn btn-danger" onclick="window.location.href = '{% url 'profile' %}'">返回</button>
+							{% else %}
+								<button type="button" class="btn btn-danger" onclick="window.location.href = '{% url 'selection' %}'">返回</button>
+							{% endif %}
+						
 			
-			{% for video in videos %}
-				<tr>
-					<td>
-					{% if progress %}
-						<a href="/video/{{video.pk}}">{{video.name}}</a>
-					{% else %}
-						{{video.name}}
-					{% endif %}
-					</td>
-					<td>{{video.description}}</td>
-				</tr>
-			{% endfor %}
+						{% if progress %}
+							<div class="btn-group" role="group" aria-label="...">
+							  <button type="button" class="btn btn-default" onclick="window.location.href = '/course/deselect/{{course.pk}}?next={{request.path}}'">退选</button>
+							  <button type="button" class="btn btn-default" onclick="window.location.href = '{% url 'blog_list' course.pk %}'">问答</button>
+							  <button type="button" class="btn btn-default" onclick="window.location.href = '{% url 'exam_list' course.pk %}'">测试</button>
+							</div>
 
-		</table>
-	{% else %}
-		<p>No Videos</p>
-	{% endif %}
+							<p style="margin-top: 0.5em;">课程学习进度</p>
+							<div class="progress">
+							  <div class="progress-bar" role="progressbar" aria-valuenow="{{progress.rate}}" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: {{progress.rate}}%;">
+							    {{progress.current}}&nbsp;/&nbsp;{{progress.total}}
+							  </div>
+							</div>
+						{% else %}
+							<button type="button" class="btn btn-default" onclick="window.location.href = '/course/select/{{course.pk}}?next={{request.path}}'">选择</button>							
+						{% endif %}
+				
+						{% if videos %}
+
+
+							<div class="list-group" style="margin-top: 0.7em;">								
+							{% for video in videos %}
+							  <a href="/video/{{video.pk}}" class="list-group-item">
+							    <h4 id="course-list-heading" class="list-group-item-heading">{{video.name}}</h4>						    
+							    <p id="course-list-text" class="list-group-item-text">
+								<span class="glyphicon glyphicon-user"></span>
+							    {{course.teacher.username}}</p>
+							    <p id="course-list-text" class="list-group-item-text">{{video.description}}</p>
+							  </a>								
+							{% endfor %}
+							</div>
+						{% else %}
+							<p>No Videos</p>
+						{% endif %}
+
+					</div>					
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
 
 {% endblock %}

@@ -17,14 +17,12 @@
 {% block content %}
 
 
-	<a href={% url 'blog_new' course.pk %}>New blog</a>
-
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-sm-8 col-md-8">
 
 				<div class="panel panel-default">
-				  <div class="panel-heading">{%  block blog_list_title %}博客列表{% endblock %}</div>
+				  <div class="panel-heading">{%  block blog_list_title %}问答列表{% endblock %}</div>
 				  <div class="panel-body">
 					{% for blog in page_of_blogs.object_list %}
 					<div class="blog">
@@ -35,9 +33,9 @@
 						<p>{{ blog.content|striptags|truncatechars:30 }}</p>				
 					</div>
 					{% empty %}
-						<p>-- 暂无博客 --</p>
+						<p>-- 暂无问答 --</p>
 					{% endfor %}
-					<p>共有{{ page_of_blogs.paginator.count }}篇博客</p>
+					<p>共有{{ page_of_blogs.paginator.count }}篇问答</p>
 				  </div>
 				</div>	
 				<div>
@@ -67,8 +65,11 @@
 				        {% endif %}
 
 				    </li>
+				<button type="button" class="btn btn-primary" onclick="window.location.href = '{% url 'blog_new' course.pk %}'" style="margin-left: 3em;">我要提问</button>					    
 				  </ul>
+			  
 				</div>	
+
 			</div>
 
 		</div>

@@ -1,37 +1,57 @@
-{% extends "template.html" %}
+{% extends "base.html" %}
 
 
 {% block head %}
 
-	<title>Teacher Profile</title>
+	Teacher Profile
 
 
 {% endblock %}
 
 
 {% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-8 col-xs-offset-2">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title">教师课程页面</h3>
+				  </div>
+				  <div class="panel-body">
+					<button id="course-choose-btn" onclick="window.location.href = '{% url "create_course" %}' " type="button" class="btn btn-primary">新建课程</button>
+						{% if courses %}
+						<h3>我的任课</h3>
+							<div class="list-group">								
+							{% for course in courses %}
+							  <a href="/course/{{course.pk}}" class="list-group-item">
+							    <h4 id="course-list-heading" class="list-group-item-heading">{{course.name}}</h4>	 
+							    <p id="course-list-text" class="list-group-item-text">{{course.count}}</p>
+							  </a>								
+							{% endfor %}
+							</div>
 
-	<a href={% url "create_course" %}>New course</a>
 
-	{% if courses %}
-		<table>
-			<tr>
-				<th>name</th>
-				<th>count</th>
-			</tr>
-			
-			{% for course in courses %}
-				<tr>
-					<td><a href="/course/{{course.pk}}">{{course.name}}</a></td>
-					<td>{{course.count}}</td>
-				</tr>
-			
-			{% endfor %}
+						{% else %}
+							<p>No Courses</p>
+						{% endif %}
+				  </div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
 
-		</table>
-
-	{% else %}
-		<p>No Courses</p>
-	{% endif %}
-
+{% block head_extends %}
+	<style type="text/css">
+		#course-choose-btn{
+			margin-bottom: 1em;
+		}
+		#course-list-heading{
+			color: black;
+		}
+		#course-list-text{
+			color: #aaa;
+			margin-top: 0.3em;
+		}
+	</style>
 {% endblock %}

@@ -1,46 +1,69 @@
-{% extends "template.html" %}
+{% extends "base.html" %}
 
-{% block head %}
+{% block head_extends %}
 	<script type="text/javascript" src="/static/jquery-1.12.4.min.js"></script>
 	<script type="text/javascript" src="/static/jquery.cookie-1.4.1.min.js"></script>
 {% endblock %}
 
 {% block content %}
 
-<a href={% url 'course_list' video.course.pk %}>Back</a>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-10 col-xs-offset-1">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title">课程播放页面-{{video.name}}</h3>
+				  </div>
+				  
+				  <div class="panel-body">
+					<button type="button" class="btn btn-danger" onclick="window.location.href = '{% url 'course_list' video.course.pk %}'">后退</button>
 
-<h1>{{video.name}}</h1>
 
-{% if pass %}
-<h3 id="status">
-	{{pass}}
-</h3>
-{% endif %}
 
-<video width=800px height=600px controls autoplay  onended="videoEnded()">
-<!-- /video{{MEDIA_URL}}{{source}} -->
+				  	<div class="panel-content" style="margin-top: 0.7em;margin-left: 2em;">
+					
+						<h3 id="status">
+							
+						{% if teacher %}
+							
+						{% else %}
+							{% if pass %}
+								已学过
+							{% else %}
+								未学过
+							{% endif %}
+						{% endif %}
+						</h3>
+						<video width=800px height=600px controls autoplay  onended="videoEnded()">
+						<!-- /video{{MEDIA_URL}}{{source}} -->
 
-	<source src="/video{{video.source.url}}" type="video/mp4">
-</video>
+							<source src="/video{{video.source.url}}" type="video/mp4">
+						</video>
 
-<script type="text/javascript">
+						<script type="text/javascript">
 
-	var tick_count=new Date().getTime()
-	
-	$(function () {
-		$.ajaxSetup({
-			headers: { "X-CSRFToken": $.cookie("csrftoken") }
-		});
-	});
-	
-	function videoEnded(){
-		$.post($(location).attr('href'),(new Date().getTime()-tick_count).toString(),function(data){
-			if (data=="pass"){
-				$("#status").text("Passed")
-			}
-		})
-	}
+							var tick_count=new Date().getTime()
+							
+							$(function () {
+								$.ajaxSetup({
+									headers: { "X-CSRFToken": $.cookie("csrftoken") }
+								});
+							});
+							
+							function videoEnded(){
+								$.post($(location).attr('href'),(new Date().getTime()-tick_count).toString(),function(data){
+									if (data=="pass"){
+										$("#status").text("已学过")
+									}
+								})
+							}
 
-</script>
+						</script>
+				  	</div>
 
+				  </div>
+				</div>
+			</div>
+		</div>
+	</div>		
 {% endblock %}

@@ -1,9 +1,9 @@
-{% extends "template.html" %}
+{% extends "base.html" %}
 
 
 {% block head %}
 
-<title>selection</title>
+selection
 
 
 {% endblock %}
@@ -11,29 +11,36 @@
 
 {% block content %}
 
-	{% if courses %}
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-8 col-xs-offset-2">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title">选课页面</h3>
+				  </div>
+				  <div class="panel-body">
 
-		<table>
-			<tr>
-				<th>name</th>
-				<th>teacher</th>
-				<th>description</th>
-				<th></th>
-			</tr>
-			
-			{% for course in courses %}
-				<tr>
-					<td><a href="/course/{{course.pk}}">{{course.name}}</a></td>
-					<td>{{course.teacher.username}}</td>
-					<td>{{course.description}}</td>
-					<td><a href="/course/select/{{course.pk}}?next={{request.path}}">Select</a></td>
-				</tr>
-			
-			{% endfor %}
+						{% if courses %}
 
-		</table>
-	{% else %}
-		<p>No course available</p>
-	{% endif %}
 
+							<div class="list-group">								
+							{% for course in courses %}
+							  <a href="/course/{{course.pk}}" class="list-group-item">
+							    <h4 id="course-list-heading" class="list-group-item-heading">{{course.name}}</h4>						    
+							    <p id="course-list-text" class="list-group-item-text">
+								<span class="glyphicon glyphicon-user"></span>
+							    {{course.teacher.username}}</p>
+							    <p id="course-list-text" class="list-group-item-text">{{course.description}}</p>
+							  </a>								
+							{% endfor %}
+							</div>
+
+						{% else %}
+							<p>No course available</p>
+						{% endif %}
+				  </div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

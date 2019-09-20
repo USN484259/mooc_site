@@ -1,14 +1,25 @@
-{% extends "template.html" %}
+{% extends "base.html" %}
 
 
 
 {% block content %}
-		<p>Registration succeed</p>
-	
-		{% if teacher %}
-		
-			<p>Your account needs to be actived by admin</p>
-		
-		{% endif %}
-	
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-6 col-xs-offset-3">
+				<div class="panel panel-primary">
+				  <div class="panel-heading">
+				    <h3 class="panel-title">恭喜</h3>
+				  </div>
+				  <div class="panel-body">
+				    <p>注册成功!
+					<a href={% url 'login' %}>登录</a>
+					</p>
+						{% if teacher %}		
+							<p>您注册的账号为教师账号，需管理员激活</p>		
+						{% endif %}    
+				  </div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

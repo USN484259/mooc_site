@@ -1,4 +1,4 @@
-{% extends "template.html" %}
+{% extends "base.html" %}
 
 
 {% block head %}
@@ -10,44 +10,58 @@
 
 
 {% block content %}
-	<p>
-		<a href={% url 'course_list' course.pk %}>Back</a>
-	</p>
-	
-	{% if exams %}
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-8 col-xs-offset-2">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title">课程测试</h3>
+				  </div>
+				  <div class="panel-body">
+					<p>
+						<button type="button" class="btn btn-danger" onclick="window.location.href = '{% url 'course_list' course.pk %}'">后退</button>
+					</p>
+					
+					{% if exams %}
 
-		<table>
-			<tr>
-				<th>exam</th>
-				<th>score</th>	
-			</tr>
-			{% for exam in exams %}
-				<tr>
-					{% if exam.result %}
-						<td>{{exam.name}}</td>
-						
-						{% if exam.result.score %}
-						
-							<td>{{exam.result.score}}/{{exam.result.total}}</td>
-						
-						{% else %}
-						
-							<td>???/{{exam.result.total}}</td>
+						<table class="table table-hover">
+								<tr>
+									<th>测试</th>
+									<th>分数</th>	
+								</tr>
+							{% for exam in exams %}
+								<tr>
+									{% if exam.result %}
+										<td>{{exam.name}}</td>
+										
+										{% if exam.result.score %}
+										
+											<td>{{exam.result.score}}/{{exam.result.total}}</td>
+										
+										{% else %}
+										
+											<td>待评分/{{exam.result.total}}</td>
 
-						{% endif %}
+										{% endif %}
+									{% else %}
+										<td>
+											<a href={% url 'exam_detail' exam.pk %}>{{exam.name}}</a>
+										</td>
+										<td>
+											
+										</td>									
+									{% endif %}
+									
+								</tr>
+							{% endfor %}
+						</table>
+
 					{% else %}
-						<td>
-							<a href={% url 'exam_detail' exam.pk %}>{{exam.name}}</a>
-						</td>
-					
+						<p>没有测试</p>
 					{% endif %}
-					
-				</tr>
-			{% endfor %}
-
-		</table>
-	{% else %}
-		<p>No Exams</p>
-	{% endif %}
-
+				  </div>
+				</div>
+			</div>
+		</div>
+	</div>		
 {% endblock %}

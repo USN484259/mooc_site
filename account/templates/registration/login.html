@@ -1,39 +1,54 @@
-<!doctype html>
+{% extends 'base.html' %}
+{% load staticfiles %}
 
-<html>
+{% block title %}
+	我的网站|登录
+{% endblock %}
 
-	<head>
-	</head>
-	<body>
-		
-		<form method="post" action={% url "login" %}>
-			{% csrf_token %}
-			<table>
-				<tr>
-					<td>{{form.username.label_tag}}</td>
-					<td>{{form.username}}</td>
-				</tr>
-				
-				<tr>
-					<td>{{form.password.label_tag}}</td>
-					<td>{{form.password}}</td>
-				
-				</tr>
-			
-			</table>
-			
-			<input type="submit" value="login">
-			<input type="hidden" name="next" value="{{next}}">
-			
-		</form>
-		
-		{% if form.errors %}
-		
-			<p>Incorrect username or password</p>
-			
-		{% endif %}
-		
-		<a href={% url "register" %}>Register</a>
-	</body>
+{% block nav_home_active %}active{% endblock %}
 
-</html>
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-4 col-xs-offset-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">登录</div>
+
+					<div class="panel-body">
+						<div class="panel-content">
+							<form method="post" action={% url "login" %}>
+								{% csrf_token %}
+								<h3></h3>
+								<div id="input-login-username" class="input-group">
+								  <input type="text" class="form-control" placeholder="用户名" aria-describedby="basic-addon1" name="username">
+								</div>
+								<div id="input-login-password" class="input-group">
+								  <input type="password" class="form-control" placeholder="密码" aria-describedby="basic-addon1" name="password">
+								</div>
+								<input type="submit" value="登录" class="btn btn-primary pull-right">
+								<input type="hidden" name="next" value="{{next}}">						
+							</form>					
+							{% if form.errors %}						
+								<p>用户名或密码不正确！</p>							
+							{% endif %}					
+							<a href={% url "register" %}>注册</a>								
+						</div>					
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+
+{% endblock %}
+
+{% block head_extends %}
+	<style type="text/css">
+		#input-login-username{
+			margin-top: 0em;
+		}
+		#input-login-password{
+			margin-top: 0.5em;
+			margin-bottom: 0.5em;
+		}
+	</style>
+{% endblock %}

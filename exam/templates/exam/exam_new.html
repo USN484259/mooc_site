@@ -1,4 +1,4 @@
-{% extends "template.html" %}
+{% extends "base.html" %}
 
 
 {% block head %}
@@ -8,13 +8,28 @@
 
 
 {% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-10 col-xs-offset-1">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title">新建测试</h3>
+				  </div>
+				  <div class="panel-body">
 
-	<form method="post" enctype="multipart/form-data">
-		{% csrf_token %}
-		{{form.media}}
-		{{form.as_p}}
-		<button type="submit">Create</button>
-	</form>
-	
+						<form method="post" enctype="multipart/form-data">
+							{% csrf_token %}
+							{{form.media}}
+							<label>测验名称</label>&nbsp;{{form.name}}<br>
+							<label>测验编号</label>&nbsp;{{form.sorting}}<br>
+							<label>测验题目</label><br>{{form.question|safe}}<br>
+							<label>测验分值</label>&nbsp;{{form.score}}
+							<button type="submit" class="btn btn-primary pull-right" style="margin-top: 0.7em;">提交</button>
+						</form>
+				  </div>
+				</div>
+			</div>
+		</div>
+	</div>		
 
 {% endblock %}

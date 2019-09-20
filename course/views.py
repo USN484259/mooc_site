@@ -28,7 +28,7 @@ def show_student(req,course):
     try:
         selection=SelectionModel.objects.get(student=req.user,course=course)
         
-        progress={"current":ProgressModel.objects.filter(selection=selection).count(),"total":VideoModel.objects.filter(course=course).count()}
+        progress={"current":ProgressModel.objects.filter(selection=selection).count(),"total":VideoModel.objects.filter(course=course).count(),"rate":ProgressModel.objects.filter(selection=selection).count()/max(VideoModel.objects.filter(course=course).count(),1)*100}
         
     except SelectionModel.DoesNotExist:
         progress=None

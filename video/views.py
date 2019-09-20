@@ -16,15 +16,17 @@ def play_video(req,id):
     video=get_object_or_404(VideoModel,pk=id)
     selection=None
     is_pass=None
+    is_teacher=True
     if Group.objects.get(name="teacher") not in req.user.groups.all():
+        is_teacher=False
         try:
             selection=SelectionModel.objects.get(student=req.user,course=video.course)
             ProgressModel.objects.get(selection=selection,video=video)
-            is_pass="Passed"
+            is_pass=True
         except SelectionModel.DoesNotExist:
             return redirect("/")
         except ProgressModel.DoesNotExist:
-            is_pass="Not pass"
+            is_pass=False
         
     if req.method=='POST':
         
@@ -39,7 +41,7 @@ def play_video(req,id):
         
     
     
-    return render(req,"video/player.html",{"video":video,"pass":is_pass})
+    return render(req,"video/player.html",{"video":video,"pass":is_pass,"teacher":is_teacher})
     
 def upload_video(req,cid):
 

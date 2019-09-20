@@ -1,42 +1,68 @@
-{% extends "template.html" %}
+{% extends "base.html" %}
 
 
 {% block head %}
 
-<title>{{course.name}}</title>
+{{course.name}}
 
 
 {% endblock %}
 
 
 {% block content %}
-	
-	<p>
-		<a href={% url 'profile' %}>Back</a>
-	</p>
 
-	
-	<a href="/video/upload/{{course.pk}}">Add video</a>
-	<a href={% url 'blog_list' course.pk %}>Blog</a>
-	<a href={% url 'exam_list' course.pk %}>Exams</a>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-8 col-xs-offset-2">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">教师课程管理</h3>
+				</div>
 
-	
-	{% if videos %}
-		<table>
-			
-			{% for video in videos %}
-				<tr>
-				<td><a href="/video/{{video.pk}}">{{video.name}}</a></td>
-				<td>{{video.description}}</td>
-				<td><a href="/video/delete/{{video.pk}}?next={{request.path}}">Delete</a></td>
-				</tr>
-			
-			{% endfor %}
+				<div class="panel-body">
+					<div class="panel-content">
 
-		</table>
-	{% else %}
-		<p>No Videos</p>
-	{% endif %}
-	
+						<button type="button" class="btn btn-danger" onclick="window.location.href = '{% url 'profile' %}'">返回</button>
+
+						<div class="btn-group" role="group" aria-label="...">
+						  <button type="button" class="btn btn-default" onclick="window.location.href = '/video/upload/{{course.pk}}'">新建视频</button>
+						  <button type="button" class="btn btn-default" onclick="window.location.href = '{% url 'blog_list' course.pk %}'">问答</button>
+						  <button type="button" class="btn btn-default" onclick="window.location.href = '{% url 'exam_list' course.pk %}'">测试</button>
+						</div>
+						<p style="margin-bottom: 0.7em;"></p>
+						{% if videos %}
+							<div class="list-group  col-xs-10">								
+							{% for video in videos %}
+							  <a href="/video/{{video.pk}}" class="list-group-item">
+							    <h4 id="course-list-heading" class="list-group-item-heading">{{video.name}}</h4>						    
+							    <p id="course-list-text" class="list-group-item-text">
+								<span class="glyphicon glyphicon-user"></span>
+							    {{course.teacher.username}}&nbsp;&nbsp;   <span class="glyphicon glyphicon-tasks"></span>   {{video.description}}</p>
+							  </a>						
+							{% endfor %}
+							</div>		
+						{% else %}
+							<p>No Videos</p>
+						{% endif %}
+
+						{% if videos %}
+							<div class="list-group  col-xs-2 pull-right">		
+							{% for video in videos %}
+								  <a href="/video/delete/{{video.pk}}?next={{request.path}}" class="list-group-item list-group-item-danger">
+								    <h4 class="list-group-item-heading">删除</h4>
+								    <p class="list-group-item-text">&nbsp;</p>
+								  </a>				
+							{% endfor %}
+							</div>
+						{% else %}
+							
+						{% endif %}
+
+					</div>					
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>	
 
 {% endblock %}
